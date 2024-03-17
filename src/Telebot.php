@@ -60,7 +60,6 @@ class Telebot
                 'reply_markup'        => $reply_markup ? json_encode($reply_markup) : null,
             ]
         ];
-
         return $this->executeRequest('sendMessage', $payload);
     }
 
@@ -83,7 +82,6 @@ class Telebot
                 'reply_markup' => $reply_markup,
             ]
         ];
-
         return $this->executeRequest('editMessageText', $payload);
     }
 
