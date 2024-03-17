@@ -28,6 +28,8 @@ class Telebot
     }
 
     /**
+     * set webhook.
+     *
      * @param string $url
      * @return array
      */
