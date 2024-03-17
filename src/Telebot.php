@@ -88,6 +88,24 @@ class Telebot
     }
 
     /**
+     * Delete a message.
+     *
+     * @param object $chat_id
+     * @param int $message_id
+     * @return array
+     */
+    public function deleteMessage(object $chat_id, int $message_id): array
+    {
+        $sendMessage = [
+            'query' => [
+                'chat_id' => $chat_id,
+                'message_id' => $message_id,
+            ],
+        ];
+        return $this->executeRequest('deleteMessage', $sendMessage, "get");
+    }
+
+    /**
      * Execute request to Telegram API.
      *
      * @param string $uri
