@@ -7,8 +7,17 @@ use GuzzleHttp\Exception\GuzzleException;
 
 class Telebot
 {
+    /**
+     * @var Client
+     */
     private Client $client;
-    public function __construct(string $token,string $base_url = "https://api.telegram.org/bot", int $timeout = 5)
+
+    /**
+     * @param string $token
+     * @param string $base_url
+     * @param int $timeout
+     */
+    public function __construct(string $token, string $base_url = "https://api.telegram.org/bot", int $timeout = 5)
     {
         $this->client = new Client([
             "base_uri" => $base_url . $token . "/",
@@ -28,16 +37,8 @@ class Telebot
     {
         $uri = "sendMessage";
         $data = [
-            'json' => [
-                'chat_id' => $chat_id,
-                'text' => $text,
-                'reply_to_message_id' => $reply_to_message_id,
-            ]
+            'json' => $this->defaultPayload($chat_id, $text, $reply_markup, $reply_to_message_id)
         ];
-
-        if ($reply_markup)
-            $data['json']['reply_markup'] = json_encode($reply_markup);
-
         try {
             $sendMessage = $this->client->post($uri, $data);
             return json_decode($sendMessage->getBody(), true);
@@ -45,6 +46,18 @@ class Telebot
             file_put_contents("error.log",$exception->getMessage());
         }
         return [];
+    }
+
+    private function defaultPayload (int $chat_id, string $text, $reply_markup, $reply_to_message_id): array
+    {
+        $data =  [
+            'chat_id'             => $chat_id,
+            'text'                => $text,
+            'reply_to_message_id' => $reply_to_message_id,
+        ];
+        if ($reply_markup)
+            $data['reply_markup'] = json_encode($reply_markup);
+        return $data;
     }
 }
 
