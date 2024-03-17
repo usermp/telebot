@@ -13,6 +13,8 @@ class Telebot
     private Client $client;
 
     /**
+     * Telebot constructor.
+     *
      * @param string $token
      * @param string $base_url
      * @param int $timeout
@@ -26,38 +28,81 @@ class Telebot
     }
 
     /**
+     * @param string $url
+     * @return array
+     */
+    public function setWebhook(string $url): array
+    {
+        $payload = [
+            'query' => [
+                'url'      => $url,
+            ]
+        ];
+        return $this->executeRequest('setWebhook', $payload, "get");
+    }
+
+    /**
+     * Send a message.
+     *
      * @param string $chat_id
      * @param string $text
      * @param array|null $reply_markup
      * @param int|null $reply_to_message_id
      * @return array
-     * @throws GuzzleException
      */
-    public function sendMessage(string $chat_id, string $text, array $reply_markup = null, int $reply_to_message_id = null): array
+    public function sendMessage(string $chat_id, string $text, ?array $reply_markup = null, ?int $reply_to_message_id = null): array
     {
-        $uri = "sendMessage";
-        $data = [
-            'json' => $this->defaultPayload($chat_id, $text, $reply_markup, $reply_to_message_id)
+        $payload =  [
+            "json" => [
+                'chat_id'             => $chat_id,
+                'text'                => $text,
+                'reply_to_message_id' => $reply_to_message_id,
+                'reply_markup'        => $reply_markup ? json_encode($reply_markup) : null,
+            ]
         ];
-        try {
-            $sendMessage = $this->client->post($uri, $data);
-            return json_decode($sendMessage->getBody(), true);
-        } catch (\Exception $exception) {
-            file_put_contents("error.log",$exception->getMessage());
-        }
-        return [];
+
+        return $this->executeRequest('sendMessage', $payload);
     }
 
-    private function defaultPayload (int $chat_id, string $text, $reply_markup, $reply_to_message_id): array
+    /**
+     * Edit a message.
+     *
+     * @param string $chat_id
+     * @param int $message_id
+     * @param string $text
+     * @param array|null $reply_markup
+     * @return array
+     */
+    public function editMessageText(string $chat_id, int $message_id, string $text, ?array $reply_markup = null): array
     {
-        $data =  [
-            'chat_id'             => $chat_id,
-            'text'                => $text,
-            'reply_to_message_id' => $reply_to_message_id,
+        $payload = [
+            'json' => [
+                'chat_id'      => $chat_id,
+                'message_id'   => $message_id,
+                'text'         => $text,
+                'reply_markup' => $reply_markup,
+            ]
         ];
-        if ($reply_markup)
-            $data['reply_markup'] = json_encode($reply_markup);
-        return $data;
+
+        return $this->executeRequest('editMessageText', $payload);
+    }
+
+    /**
+     * Execute request to Telegram API.
+     *
+     * @param string $uri
+     * @param array $payload
+     * @param string $method
+     * @return array
+     */
+    private function executeRequest(string $uri, array $payload, string $method = "post"): array
+    {
+        try {
+            $response = $this->client->{$method}($uri, $payload);
+            return json_decode($response->getBody()->getContents(), true);
+        } catch (\Exception $exception) {
+            file_put_contents("error.log", $exception->getMessage() . PHP_EOL, FILE_APPEND);
+            return [];
+        }
     }
 }
-
