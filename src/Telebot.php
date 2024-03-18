@@ -126,6 +126,8 @@ class Telebot
     }
 
     /**
+     * Send a photo.
+     *
      * @param string $chat_id
      * @param string $photo
      * @param string|null $caption
@@ -148,6 +150,8 @@ class Telebot
     }
 
     /**
+     * Send a audio.
+     *
      * @param string $chat_id
      * @param string $audio
      * @param string|null $caption
@@ -172,6 +176,8 @@ class Telebot
     }
 
     /**
+     * Send a document.
+     *
      * @param string $chat_id
      * @param string $document
      * @param string|null $caption
@@ -192,6 +198,8 @@ class Telebot
     }
 
     /**
+     * Send a video.
+     *
      * @param string $chat_id
      * @param string $video
      * @param int|null $duration
@@ -218,6 +226,8 @@ class Telebot
     }
 
     /**
+     * Send a voice.
+     *
      * @param string $chat_id
      * @param string $voice
      * @param int|null $duration
@@ -240,6 +250,8 @@ class Telebot
     }
 
     /**
+     * Sens a location.
+     *
      * @param string $chat_id
      * @param int $latitude
      * @param int $longitude
@@ -260,6 +272,8 @@ class Telebot
     }
 
     /**
+     * Send a contact.
+     *
      * @param string $chat_id
      * @param string $phone_number
      * @param string $first_name
@@ -282,6 +296,8 @@ class Telebot
     }
 
     /**
+     * Get File.
+     *
      * @param string $file_id
      * @return array
      */
@@ -296,6 +312,8 @@ class Telebot
     }
 
     /**
+     * Get chat.
+     *
      * @param string $chat_id
      * @return array
      */
@@ -310,6 +328,8 @@ class Telebot
     }
 
     /**
+     * Get chat members count.
+     *
      * @param string $chat_id
      * @return array
      */
@@ -324,6 +344,8 @@ class Telebot
     }
 
     /**
+     * Get chat member.
+     *
      * @param string $chat_id
      * @return array
      */
@@ -338,6 +360,8 @@ class Telebot
     }
 
     /**
+     * Get chat administrators.
+     *
      * @param string $chat_id
      * @return array
      */
