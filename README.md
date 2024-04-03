@@ -53,7 +53,3 @@ Telebot provides various methods for different actions such as sending photos, a
 ## Contributing
 
 Contributions are welcome! Feel free to open issues or pull requests.
-
-## License
-
-This library is licensed under the MIT License. See the LICENSE file for details.
